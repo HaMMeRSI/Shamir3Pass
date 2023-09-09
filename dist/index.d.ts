@@ -4,6 +4,7 @@ export declare class Key {
     readonly prime: BigInt;
     constructor(encryption: BigInt, decryption: BigInt, prime: BigInt);
     toString(): string;
+    fromString(keyString: string): Key;
 }
 export declare function shamir3pass(): {
     encrypt: (message: BigInt, key: Key) => bigint;

@@ -21,7 +21,14 @@ export class Key {
         });
     }
     toString() {
-        return `encryption=${this.encryption}\ndecryption=${this.decryption}\nPrime=${this.prime}`;
+        const encryption = this.encryption.toString(16);
+        const decryption = this.decryption.toString(16);
+        const prime = this.prime.toString(16);
+        return JSON.stringify({ encryption, decryption, prime });
+    }
+    fromString(keyString) {
+        const { encryption, decryption, prime } = JSON.parse(keyString);
+        return new Key(BigInt('0x' + encryption), BigInt('0x' + decryption), BigInt('0x' + prime));
     }
 }
 export function shamir3pass() {
