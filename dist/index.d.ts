@@ -1,15 +1,30 @@
-export declare class Key {
-    readonly encryption: BigInt;
-    readonly decryption: BigInt;
-    readonly prime: BigInt;
-    constructor(encryption: BigInt, decryption: BigInt, prime: BigInt);
+export declare function key(encryption: BigInt, decryption: BigInt, prime: BigInt): {
+    encryption: BigInt;
+    decryption: BigInt;
+    prime: BigInt;
     toString(): string;
-    fromString(keyString: string): Key;
-}
+};
+export type Key = ReturnType<typeof key>;
+export declare function keyFromString(keyString: string): {
+    encryption: BigInt;
+    decryption: BigInt;
+    prime: BigInt;
+    toString(): string;
+};
 export declare function shamir3pass(): {
     encrypt: (message: BigInt, key: Key) => bigint;
     decrypt: (cipherText: BigInt, key: Key) => bigint;
-    generateKey: (primeBitLength: number) => Key;
+    generateKey: (primeBitLength: number) => {
+        encryption: BigInt;
+        decryption: BigInt;
+        prime: BigInt;
+        toString(): string;
+    };
     randomNBitPrime: (bitLength: number) => bigint;
-    generateKeyFromPrime: (prime: BigInt) => Key;
+    generateKeyFromPrime: (prime: BigInt) => {
+        encryption: BigInt;
+        decryption: BigInt;
+        prime: BigInt;
+        toString(): string;
+    };
 };

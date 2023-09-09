@@ -1,24 +1,25 @@
 import * as bigintCryptoUtils from 'bigint-crypto-utils';
 
-export class Key {
-    constructor(
-        readonly encryption: BigInt,
-        readonly decryption: BigInt,
-        readonly prime: BigInt
-    ) {}
+export function key(encryption: BigInt, decryption: BigInt, prime: BigInt) {
+    return {
+        encryption,
+        decryption,
+        prime,
+        toString() {
+            const encryption = this.encryption.toString(16);
+            const decryption = this.decryption.toString(16);
+            const prime = this.prime.toString(16);
 
-    toString() {
-        const encryption = this.encryption.toString(16);
-        const decryption = this.decryption.toString(16);
-        const prime = this.prime.toString(16);
+            return JSON.stringify({ encryption, decryption, prime });
+        },
+    };
+}
 
-        return JSON.stringify({ encryption, decryption, prime });
-    }
+export type Key = ReturnType<typeof key>;
 
-    fromString(keyString: string) {
-        const { encryption, decryption, prime } = JSON.parse(keyString);
-        return new Key(BigInt('0x' + encryption), BigInt('0x' + decryption), BigInt('0x' + prime));
-    }
+export function keyFromString(keyString: string) {
+    const { encryption, decryption, prime } = JSON.parse(keyString);
+    return key(BigInt('0x' + encryption), BigInt('0x' + decryption), BigInt('0x' + prime));
 }
 
 export function shamir3pass() {
@@ -32,7 +33,7 @@ export function shamir3pass() {
 
             if (gcd === 1n) {
                 const mi = bigintCryptoUtils.modInv(bigInt.valueOf(), primeMinusOne.valueOf());
-                return new Key(bigInt, mi, prime);
+                return key(bigInt, mi, prime);
             }
         }
     }
