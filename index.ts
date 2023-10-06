@@ -1,6 +1,6 @@
 import * as bigintCryptoUtils from 'bigint-crypto-utils';
 
-export function key(encryption: BigInt, decryption: BigInt, prime: BigInt) {
+export function key(encryption: bigint, decryption: bigint, prime: bigint) {
     return {
         encryption,
         decryption,
@@ -23,9 +23,9 @@ export function keyFromString(keyString: string) {
 }
 
 export function shamir3pass() {
-    function generateKeyFromPrime(prime: BigInt) {
+    function generateKeyFromPrime(prime: bigint) {
         const primeBitsLength = (prime.toString(16).length / 2) * 8;
-        const primeMinusOne: BigInt = prime.valueOf() - 1n;
+        const primeMinusOne: bigint = prime.valueOf() - 1n;
 
         while (true) {
             const bigInt = randomBigInt(primeBitsLength);
@@ -54,11 +54,11 @@ export function shamir3pass() {
         return random;
     }
 
-    function encrypt(message: BigInt, key: Key) {
+    function encrypt(message: bigint, key: Key) {
         return bigintCryptoUtils.modPow(message.valueOf(), key.encryption.valueOf(), key.prime.valueOf());
     }
 
-    function decrypt(cipherText: BigInt, key: Key) {
+    function decrypt(cipherText: bigint, key: Key) {
         return bigintCryptoUtils.modPow(cipherText.valueOf(), key.decryption.valueOf(), key.prime.valueOf());
     }
 
